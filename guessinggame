@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class GuessingGame {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		String wrong = "Sorry, Wrong";
+		String win = "Winner";
+		int repeat = 1;
+
+		while (repeat == 1) {
+			int rightGuess = random();
+			int guess = 0;
+			int guessCount = 0;
+			boolean right = false;
+			while (right == false && guessCount < 3) {
+				System.out.println("Guess a number between 1 and 10.");
+				guess = scan.nextInt();
+				guessCount++;
+				if (guess == rightGuess) {
+					right = true;
+					System.out.println(win);
+				} else
+					System.out.println(wrong);
+			}
+			System.out.println("The right answer was " + rightGuess + ".");
+			System.out.println("Enter 1 to play again or 2 to quit the program.");
+			repeat = scan.nextInt();
+		}
+	}
+
+	public static int random() {
+		int x = 1 + (int) (Math.random() * 10);
+		return x;
+	}
+}
