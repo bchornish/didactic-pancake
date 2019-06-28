@@ -1,0 +1,27 @@
+
+public class TempArray {
+	
+	public static void main(String[]args) {
+		String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
+		int[] temps = {34, 32, 40, 50, 55, 70, 73, 75, 70, 65, 55, 40};
+		int ind= findTemp(temps);
+		System.out.println("The highest temperature was "+ temps[ind]+" in "+ findMonth(months, ind)+ ".");
+		
+	}
+	public static int findTemp(int[] x) {
+		int max=0;
+		int ind=0;
+		for(int i=0;i<x.length; i++) {
+			if(x[i]>max) {
+				max= x[i];
+				ind = i;
+			}
+		}
+		return ind;
+	}
+	
+	public static String findMonth(String[] x, int ind) {
+		return x[ind];
+	}
+
+}
