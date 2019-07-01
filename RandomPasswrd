@@ -1,0 +1,56 @@
+
+public class Password {
+	public static void main(String[] args) {
+		String[] pass = new String[8];
+		String[] lower = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
+				"s", "t", "u", "v", "w", "x", "y", "z" };
+		String[] upper = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+				"S", "T", "U", "V", "W", "X", "Y", "Z" };
+		String[] num = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+
+		for (int x = 0; x < pass.length; x++) {
+			int r = (int) (Math.random() * 100);
+			if (r > 66)
+				pass[x] = lower[randomLetter()];
+			else if (r > 33)
+				pass[x] = upper[randomLetter()];
+			else
+				pass[x] = num[randomNum()];
+		}
+		int rand= (int)(Math.random()*8);
+		if(!contains(pass,lower))
+			pass[rand]=lower[randomLetter()];
+		else if(!contains(pass,upper))
+			pass[rand]=upper[randomLetter()];
+		else if(!contains(pass,num))
+			pass[rand]=num[randomLetter()];
+
+		String j = "";
+		for (String str : pass) {
+			j += str;
+		}
+		System.out.println(j);
+	}
+
+	public static int randomLetter() {
+		return (int) (Math.random() * 26);
+	}
+
+	public static int randomNum() {
+		return (int) (Math.random() * 10);
+	}
+
+	public static boolean contains(String[] pass, String[] any) {
+		for (int i = 0; i < pass.length; i++) {
+			for (int ind = 0; ind < any.length; ind++) {
+				String str = pass[i];
+				if (str.equals(any[ind])) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+}
