@@ -1,0 +1,108 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.Font;
+import java.awt.FontMetrics;
+
+public class BarGraph {
+	private JFrame frame;
+
+	public BarGraph() {
+		frame = new JFrame("Bar Graph");
+		frame.setSize(600, 400);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setPreferredSize(frame.getSize());
+		frame.add(new DrawBars(frame.getSize()));
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+	public static void main(String... argv) {
+		new BarGraph();
+	}
+
+	public static class DrawBars extends JPanel implements MouseListener {
+		/*
+		 * Declare Class Variables Here
+		 */
+		int x = 20;
+		int y = 200;
+		double[] phila = { 2.85, 6.02, 4.74, 3.94, 5.21, 3.34, 3.06, 4.11, 8.35, 3.08, 9.03, 6.38 };
+		double[] seattle = { 8.12, 2.16, 2.44, 5.69, 0.12, 0.63, 0.05, 0.2, 0.98, 3.78, 5.42, 6.08 };
+
+		public DrawBars(Dimension dimension) {
+			setSize(dimension);
+			setPreferredSize(dimension);
+			addMouseListener(this);
+
+		}
+
+		@Override
+		public void paintComponent(Graphics g) {
+			int philaX = 10;
+			int seatX = 30;
+			Graphics2D g2 = (Graphics2D) g;// g2 is the graphics object that we need to use
+			// to draw things to the screen
+			Dimension d = getSize();
+			// create a background
+			g2.setColor(Color.white);
+			g2.fillRect(0, 0, d.width, d.height);
+			/**/
+
+			// hat
+			Color purple = new Color(102, 0, 102); // instance variable purple
+			g2.setColor(purple);
+			// philly rain bar graphs
+			for (int x = 0; x < phila.length; x++) {
+
+				g2.fillRect(philaX, (int) (d.height - phila[x] * 20), 20, (int) phila[x] * 100);
+				philaX += 40;
+
+			}
+			Color green = new Color(10, 255, 102); // instance variable purple
+			g2.setColor(green);
+			x = 5;
+			// seattle Bar graphs
+			for (int x = 0; x < phila.length; x++) {
+
+				g2.fillRect(seatX, (int) (d.height - seattle[x] * 20), 20, (int) seattle[x] * 100);
+				seatX += 40;
+
+			}
+
+			// display Text
+			g2.setColor(purple);
+			g2.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+			g2.drawString("Philadelphia", 10, 30);// text to display, x and y coordinates
+			g2.setColor(green);
+			g2.drawString("Seattle", 200, 30);
+
+		}
+
+		public void mousePressed(MouseEvent e) {
+			x = e.getX();
+			y = e.getY();
+
+			repaint();// updates the paint method
+		}
+
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		public void mouseExited(MouseEvent e) {
+		}
+
+		public void mouseClicked(MouseEvent e) {
+		}
+	}
+}
