@@ -1,0 +1,29 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class TempArray {
+	
+	public static void main(String[]args) {
+		ArrayList<Integer> temps = new ArrayList<>(Arrays.asList(34, 32, 40, 50, 55, 70, 73, 75, 70, 65, 55, 40));
+		ArrayList<String> months = new ArrayList<>(Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"));
+		int ind= findTemp(temps);
+		System.out.println("The highest temperature was "+ temps.get(ind)+" in "+ findMonth(months, ind)+ ".");
+		
+	}
+	public static int findTemp(ArrayList<Integer> x) {
+		int max=0;
+		int ind=0;
+		for(int i=0;i<x.size(); i++) {
+			if(x.get(i)>max) {
+				max= x.get(i);
+				ind = i;
+			}
+		}
+		return ind;
+	}
+	
+	public static String findMonth(ArrayList<String> x, int ind) {
+		return x.get(ind);
+	}
+
+}
