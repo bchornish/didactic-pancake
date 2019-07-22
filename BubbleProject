@@ -1,0 +1,198 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.util.*;
+import javax.swing.Timer;
+
+public class DrawBubbles {
+
+    private JFrame frame;
+
+    // The method to set up
+    public DrawBubbles() {
+
+        frame = new JFrame("Bar Graph");
+        frame.setSize(600, 400);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // the event that triggers the end of the program
+        frame.setPreferredSize(frame.getSize()); 
+        frame.add(new DrawBubs(frame.getSize())); // Setting up the DrawBars public class function (getting bars and putting it in this frame)
+        frame.pack();
+        frame.setVisible(true);
+
+    }
+
+    // The main method
+    public static void main(String... argv) {
+
+        new DrawBubbles();
+
+    }
+
+    public static class DrawBubs extends JPanel  implements Runnable, MouseListener {
+
+        /*
+         * Declare Class Variables Here
+         */
+        private Thread animator;
+        ArrayList<Bubble> b = new ArrayList<Bubble>();
+
+
+        public DrawBubs(Dimension dimension) {
+
+            setSize(dimension);
+            setPreferredSize(dimension);
+            addMouseListener(this);
+            if (animator == null ) {
+                animator = new Thread(this);
+                animator.start();
+            }
+
+            setDoubleBuffered(true);
+
+        }
+
+        @Override
+
+        public void paintComponent(Graphics g) {
+
+            Graphics2D g2 = (Graphics2D)g;//g2 is the graphics object that we need to use
+
+            //to draw things to the screen
+            Dimension d = getSize();
+
+            //create a background
+            g2.setColor(Color.white);
+            g2.fillRect(0, 0, d.width, d.height);
+            
+            for(int i=0; i<b.size();i++) {
+            	Bubble x=b.get(i);
+            	g2.setColor(x.c);
+            	g2.fillOval(x.x, x.y, x.w, x.w);
+            	x.speed(x.x, x.y);
+            	if(x.time>200)
+            		b.remove(i);
+            	if(b.size()>20)
+            		b.remove(b.size()-1);
+            }
+            /**/
+
+        
+
+        }
+
+        
+       
+
+        public void mousePressed(MouseEvent e) {
+
+            int x = e.getX();
+            int y = e.getY();
+            
+            Bubble bNew = new Bubble(x,y);
+            b.add(bNew);
+            
+            
+  
+           
+            repaint();//updates the paint method
+
+        }
+
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        public void mouseExited(MouseEvent e) {
+
+        }
+
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        public void run() {
+            long beforeTime, timeDiff, sleep;
+            beforeTime = System.currentTimeMillis();
+            int animationDelay = 40;
+            long time = 
+                System.currentTimeMillis();
+            while (true) {//infinite loop
+                // spriteManager.update();
+                repaint();
+                try {
+                    time += animationDelay;
+                    Thread.sleep(Math.max(0,time - 
+                            System.currentTimeMillis()));
+                }catch (InterruptedException e) {
+                    System.out.println(e);
+                }//end catch
+            }//end while loop
+        }//end of run
+
+    }
+
+}
+
+
+
+
+
+
+
+import java.awt.Color;
+
+public class Bubble {
+	
+	int x;
+	int y;
+	int w; 
+	Color c; 
+	int xSpeed;
+	int ySpeed;
+	int time=0; 
+	
+	public Bubble(int x, int y) {
+		double negX=Math.random()*2;
+		double negY=Math.random()*2;
+		this.x=x;
+		this.y=y;
+		c= new Color(randomRGB(),randomRGB(),randomRGB());
+		w = 7+ (int)(Math.random()*34);
+		xSpeed = 4+(int)(Math.random()*7);
+		if(negX<1)
+			xSpeed = -xSpeed;
+		ySpeed = 4+(int)(Math.random()*7);
+		if(negY<1)
+			ySpeed = -ySpeed;
+		
+	}
+	public int randomRGB() {
+		return (int)(Math.random() * 256);
+	}
+	
+	public void speed(int x, int y) {
+		this.x+=this.xSpeed;
+		this.y+=this.ySpeed;
+		if(this.x>600-this.w||this.x<0)
+			xSpeed=-xSpeed;
+		if(this.y>400-(this.w*1.5)||this.y<0)
+			ySpeed=-ySpeed;
+		this.time+=1;
+	}
+	
+	
+
+}
